@@ -18,7 +18,7 @@ const Quizzes = () => {
     return (
       <div className="quiz-container">
         <h2>No Quizzes Found for {genre.toUpperCase()}</h2>
-        <CustomButton className="back-button" onClick={() => navigate("/")}>
+        <CustomButton className="back-button" onClick={() => navigate("/quiz")}>
           Back to Genre Selection
         </CustomButton>
       </div>
