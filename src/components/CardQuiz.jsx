@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import CustomInput from "./CustomInput"; 
+import CustomButton from "./CustomButton"; 
 
-const CardQuiz = ({ question, options, onAnswer, questionIndex, isInput }) => {
+const CardQuiz = ({ question, options, onAnswer, questionIndex, isInput, setCurrentQuestionIndex }) => {
   const [inputValue, setInputValue] = useState("");
 
   const handleInputSubmit = () => {
     if (inputValue.trim()) {
-      onAnswer(inputValue, questionIndex);
-      setInputValue(""); 
+      console.log("Input submitted:", inputValue);
+      onAnswer(inputValue, questionIndex); 
+      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+      setInputValue("");
     }
   };
 
@@ -17,29 +20,31 @@ const CardQuiz = ({ question, options, onAnswer, questionIndex, isInput }) => {
       <div className="quiz-options">
         {isInput ? (
           <div className="input-container">
+
             <CustomInput
               aria-label={`Question ${questionIndex + 1}`}
               placeholder="Type your answer..."
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
             />
-            <button
-              className="submit-button"
-              onClick={handleInputSubmit}
-              disabled={!inputValue.trim()}
+            <CustomButton
+              onClick={handleInputSubmit}  
+              disabled={!inputValue.trim()} 
             >
               Submit
-            </button>
+            </CustomButton>
           </div>
         ) : (
           options.map((option, index) => (
-            <button
+            <CustomButton
               key={index}
-              className="option-button"
-              onClick={() => onAnswer(option, questionIndex)}
+              onClick={() => {
+                onAnswer(option, questionIndex);  
+                setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+              }}
             >
               {option}
-            </button>
+            </CustomButton>
           ))
         )}
       </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Button from "../../components/Button";
+import CustomButton from "../../components/CustomButton";
 import "./Home.css";
 
 const Home = () => {
@@ -8,7 +8,7 @@ const Home = () => {
     <div className="homeContainer">
       <h1>Welcome to the Quiz App</h1>
       <Link to="/quizzes">
-        <button className="homeButton">Start Quiz</button>
+        <CustomButton className="homeButton">Start Quiz</CustomButton>
       </Link>
     </div>
   );

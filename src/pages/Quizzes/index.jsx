@@ -3,7 +3,6 @@ import CardQuiz from "../../components/CardQuiz";
 import quizzesData from "../../data/quizzesData";
 import "./Quizzes.css";
 
-
 const Quizzes = () => {
   const [userAnswers, setUserAnswers] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -14,10 +13,6 @@ const Quizzes = () => {
       updatedAnswers[questionIndex] = answer;
       return updatedAnswers;
     });
-
-    if (currentQuestionIndex < quizzesData.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    }
   };
 
   const currentQuestion = quizzesData[currentQuestionIndex];
@@ -30,6 +25,8 @@ const Quizzes = () => {
         options={currentQuestion.options}
         onAnswer={handleAnswer}
         questionIndex={currentQuestionIndex}
+        isInput={currentQuestion.isInput} 
+        setCurrentQuestionIndex={setCurrentQuestionIndex} 
       />
     </div>
   );
