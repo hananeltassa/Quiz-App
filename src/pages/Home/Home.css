@@ -1,12 +1,64 @@
 .homeContainer {
     text-align: center;
-    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+    background-color: #000;
+    background: linear-gradient(45deg, #ff4081, #673ab7);
+    color: #fff;
+    animation: backgroundMove 4s ease infinite;
+}
+  
+h1 {
+    font-size: 3rem;
+    font-family: 'Pacifico', cursive;
+    animation: fadeInUp 2s ease;
+    margin-bottom: 30px;
 }
   
 .homeButton {
-    background-color: #4caf50 ;
+    font-size: 1.2rem;
+    font-weight: bold;
+    background-color: #ff4081;
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
 }
   
 .homeButton:hover {
-    background-color: #45a049;
+    transform: scale(1.1);
+    background-color: #673ab7;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
 }
+  
+.homeButton:active {
+    transform: scale(0.95);
+}
+  
+@keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+}
+  
+@keyframes backgroundMove {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+} 

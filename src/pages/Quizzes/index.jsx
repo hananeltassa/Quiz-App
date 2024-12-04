@@ -1,12 +1,28 @@
 import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import CardQuiz from "../../components/CardQuiz"; 
 import quizzesData from "../../data/quizzesData";
 import "./Quizzes.css";
 
 const Quizzes = () => {
+  const { genre } = useParams(); 
+  const genreQuizzes = quizzesData[genre];
+  const navigate = useNavigate();
+
   const [userAnswers, setUserAnswers] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
+
+  if (!genreQuizzes || genreQuizzes.length === 0) {
+    return (
+      <div className="quiz-container">
+        <h2>No Quizzes Found for {genre.toUpperCase()}</h2>
+        <button className="back-button" onClick={() => navigate("/")}>
+          Back to Genre Selection
+        </button>
+      </div>
+    );
+  }
 
   const handleAnswer = (answer, questionIndex) => {
     setUserAnswers((prev) => {
@@ -21,8 +37,9 @@ const Quizzes = () => {
       setScore((prevScore) => prevScore + 10);
     }
   };
+  
+  const currentQuestion = genreQuizzes[currentQuestionIndex];
 
-  const currentQuestion = quizzesData[currentQuestionIndex];
 
   if (!currentQuestion) {
     return (
