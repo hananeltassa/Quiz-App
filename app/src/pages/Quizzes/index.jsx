@@ -47,6 +47,9 @@ const Quizzes = () => {
       <div className="quiz-container">
         <h2>Quiz Completed!</h2>
         <p>Your final score is: {score}</p>
+        <CustomButton className="back-button" onClick={() => navigate("/quiz")}>
+          Back to Genre Selection
+        </CustomButton>
       </div>
     );
   }
