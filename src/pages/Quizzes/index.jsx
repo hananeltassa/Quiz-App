@@ -6,6 +6,7 @@ import "./Quizzes.css";
 const Quizzes = () => {
   const [userAnswers, setUserAnswers] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [score, setScore] = useState(0);
 
   const handleAnswer = (answer, questionIndex) => {
     setUserAnswers((prev) => {
@@ -13,6 +14,12 @@ const Quizzes = () => {
       updatedAnswers[questionIndex] = answer;
       return updatedAnswers;
     });
+  };
+
+  const handleScoreUpdate = (isCorrect) => {
+    if(isCorrect){
+      setScore((prevScore) => prevScore + 10);
+    }
   };
 
   const currentQuestion = quizzesData[currentQuestionIndex];
@@ -27,7 +34,13 @@ const Quizzes = () => {
         questionIndex={currentQuestionIndex}
         isInput={currentQuestion.isInput} 
         setCurrentQuestionIndex={setCurrentQuestionIndex} 
+        score={score}
+        setScore={handleScoreUpdate}
+        correctAnswer={currentQuestion.correctAnswer}
       />
+      <div className="score">
+        <p>Score: {score}</p>
+      </div>
     </div>
   );
 };

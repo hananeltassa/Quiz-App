@@ -2,18 +2,26 @@ import React, { useState } from "react";
 import CustomInput from "./CustomInput"; 
 import CustomButton from "./CustomButton"; 
 
-const CardQuiz = ({ question, options, onAnswer, questionIndex, isInput, setCurrentQuestionIndex }) => {
+const CardQuiz = ({ question, options, onAnswer, questionIndex, isInput, setCurrentQuestionIndex, score, setScore, correctAnswer }) => {
   const [inputValue, setInputValue] = useState("");
 
   const handleInputSubmit = () => {
     if (inputValue.trim()) {
-      console.log("Input submitted:", inputValue);
+      const isCorrect = inputValue.trim().toLowerCase() === correctAnswer.toLowerCase(); 
+      setScore(isCorrect);
       onAnswer(inputValue, questionIndex); 
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
       setInputValue("");
     }
   };
 
+  const handleOptionClick = (option) => {
+    const isCorrect = option.toLowerCase() === correctAnswer.toLowerCase();
+    setScore(isCorrect);
+    onAnswer(option, questionIndex);
+    setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+  };
+  
   return (
     <div className="quiz-card">
       <h3>{question}</h3>
@@ -38,10 +46,7 @@ const CardQuiz = ({ question, options, onAnswer, questionIndex, isInput, setCurr
           options.map((option, index) => (
             <CustomButton
               key={index}
-              onClick={() => {
-                onAnswer(option, questionIndex);  
-                setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-              }}
+              onClick={() => handleOptionClick(option)}
             >
               {option}
             </CustomButton>
