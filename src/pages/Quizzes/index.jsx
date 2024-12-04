@@ -24,6 +24,14 @@ const Quizzes = () => {
 
   const currentQuestion = quizzesData[currentQuestionIndex];
 
+  if (!currentQuestion) {
+    return (
+      <div className="quiz-container">
+        <h2>Quiz Completed!</h2>
+        <p>Your final score is: {score}</p>
+      </div>
+    );
+  }
   return (
     <div className="quiz-container">
       <h2>Quiz: Question {currentQuestionIndex + 1}</h2>
