@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import CardQuiz from "../../components/CardQuiz"; 
+import CustomButton from "../../components/CustomButton"; 
 import quizzesData from "../../data/quizzesData";
 import "./Quizzes.css";
 
@@ -9,7 +10,7 @@ const Quizzes = () => {
   const genreQuizzes = quizzesData[genre];
   const navigate = useNavigate();
 
-  const [userAnswers, setUserAnswers] = useState([]);
+  const [setUserAnswers] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
 
@@ -17,9 +18,9 @@ const Quizzes = () => {
     return (
       <div className="quiz-container">
         <h2>No Quizzes Found for {genre.toUpperCase()}</h2>
-        <button className="back-button" onClick={() => navigate("/")}>
+        <CustomButton className="back-button" onClick={() => navigate("/quiz")}>
           Back to Genre Selection
-        </button>
+        </CustomButton>
       </div>
     );
   }

@@ -151,6 +151,9 @@ const quizzesData = {
       isInput: true,
     },
   ],
+  hanan: [
+    
+  ],
 };
 
 export default quizzesData;
