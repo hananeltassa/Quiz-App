@@ -1,0 +1,92 @@
+/* Main container for the register page */
+.registerContainer {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+    background-color: #000;
+    background: linear-gradient(45deg, #ff4081, #673ab7);
+    color: #fff;
+    animation: backgroundMove 4s ease infinite;
+}
+
+/* Page title */
+.registerTitle {
+    font-size: 3rem;
+    font-family: 'Pacifico', cursive;
+    animation: fadeInUp 2s ease;
+    margin-bottom: 30px;
+}
+
+/* Form styles */
+.registerForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Input fields */
+.registerInput {
+    width: 300px;
+    padding: 12px 20px;
+    margin: 10px auto;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.registerInput:focus {
+    border-color: #ff4081;
+    box-shadow: 0 0 10px rgba(255, 64, 129, 0.5);
+    outline: none;
+}
+
+/* Register button */
+.registerButton {
+    font-size: 1.2rem;
+    font-weight: bold;
+    background-color: #ff4081;
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+}
+
+.registerButton:hover {
+    transform: scale(1.1);
+    background-color: #673ab7;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.registerButton:active {
+    transform: scale(0.95);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes backgroundMove {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
