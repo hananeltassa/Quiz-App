@@ -1,45 +1,48 @@
 import { Quiz } from "../db/models/quiz.model.js";
-
+import { Genre } from "../db/models/genre.model.js";
 
 export const createQuiz = async (req, res) => {
+  const { genre, questions } = req.body;
+
   try {
-    const genre = req.body.genre;  
-    const quiz = new Quiz({
-      title: req.body.title,
-      description: req.body.description,
-      genre: genre,
-      questions: req.body.questions,
+    if (!genre || !questions || questions.length === 0) {
+      return res.status(400).json({ message: "Genre and questions are required" });
+    }
+
+    const foundGenre = await Genre.findOne({ name: genre });
+    if (!foundGenre) {
+      return res.status(404).json({ message: "Genre not found" });
+    }
+
+    const newQuiz = new Quiz({
+      genre: foundGenre.name,  
+      questions,
     });
 
-    await quiz.save();
-    res.status(201).json({ message: "Quiz created successfully", quiz });
+    await newQuiz.save();
+
+    return res.status(201).json({ message: "Quiz created successfully", quiz: newQuiz });
   } catch (error) {
-    res.status(400).json({ message: "Error creating quiz", error });
+    console.error("Error creating quiz:", error.message);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
 
 export const getQuiz = async (req, res) => {
-  try {
-    const quiz = await Quiz.findOne({ title: req.params.title }).populate("genre", "name");
-    if (!quiz) {
-      return res.status(404).json({ message: "Quiz not found" });
-    }
-    res.status(200).json({ message: "Quiz found", quiz });
-  } catch (error) {
-    res.status(400).json({ message: "Error retrieving quiz", error });
-  }
-};
+  const { genre } = req.query;  
 
-
-export const getQuizzesByGenre = async (req, res) => {
   try {
-    const quizzes = await Quiz.find({ genre: req.params.genreId }).populate("genre", "name");
-    if (!quizzes || quizzes.length === 0) {
+    const quizzes = await Quiz.find({ genre });
+
+    if (quizzes.length === 0) {
       return res.status(404).json({ message: "No quizzes found for this genre" });
     }
-    res.status(200).json({ message: "Quizzes found", quizzes });
+
+    return res.status(200).json({ quizzes });
   } catch (error) {
-    res.status(400).json({ message: "Error retrieving quizzes", error });
+    console.error("Error fetching quizzes:", error.message);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+

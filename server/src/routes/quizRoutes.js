@@ -1,10 +1,10 @@
 import express from "express";
-import { createQuiz, getQuiz, getQuizzesByGenre } from "../controllers/quizController.js";
+import { createQuiz, getQuiz } from "../controllers/quizController.js";
+import { authMiddleware } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/quiz", createQuiz);
-router.get("/quiz/:title", getQuiz);
-router.get("/quizzes/genre/:genreId", getQuizzesByGenre);
+router.post("/quiz", authMiddleware, createQuiz);
+router.get("/quizzes/genre",  authMiddleware, getQuiz);
 
 export default router;
