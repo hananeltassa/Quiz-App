@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Login.css"; 
+import axios from "axios";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 
@@ -8,16 +9,36 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Data:", formData);
-  };
+    
+    try {
+        setLoading(true);
+  
+        const response = await axios.post("http://localhost:8080/api/users/login", {
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+        });
+  
+        console.log(response.data);
+  
+        window.location.href = "/"; 
+  
+      } catch (error) {
+        setErrorMessage(error.response?.data?.message || "Something went wrong");
+      } finally {
+        setLoading(false);
+      }
+    };
 
   return (
     <div className="loginContainer">
