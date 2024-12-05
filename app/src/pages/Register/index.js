@@ -1,33 +1,60 @@
 import React, { useState } from "react";
 import "./Register.css"; 
+import axios from "axios";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
+    username: "",
     email: "",
     password: "",
-    confirmPassword: "",
   });
+
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
-      return;
+
+
+    try {
+      setLoading(true);
+
+      const response = await axios.post("http://localhost:8080/api/users/register", {
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+      });
+
+      console.log(response.data);
+
+      window.location.href = "/login"; 
+
+    } catch (error) {
+      setErrorMessage(error.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
-    console.log("Form Data:", formData);
   };
 
   return (
     <div className="registerContainer">
       <h1 className="registerTitle">Register</h1>
       <form onSubmit={handleSubmit} className="registerForm">
+        <CustomInput
+          type="text"
+          name="username"
+          placeholder="Enter your username"
+          value={formData.username}
+          onChange={handleInputChange}
+          className="registerInput"
+        />
         <CustomInput
           type="email"
           name="email"
@@ -44,16 +71,9 @@ const RegisterPage = () => {
           onChange={handleInputChange}
           className="registerInput"
         />
-        <CustomInput
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirm your password"
-          value={formData.confirmPassword}
-          onChange={handleInputChange}
-          className="registerInput"
-        />
-        <CustomButton type="submit" className="registerButton">
-          Register
+        {errorMessage && <p className="errorMessage">{errorMessage}</p>}
+        <CustomButton type="submit" className="registerButton" disabled={loading}>
+          {loading ? "Registering..." : "Register"}
         </CustomButton>
       </form>
     </div>

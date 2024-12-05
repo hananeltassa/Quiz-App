@@ -5,7 +5,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login"; 
 import GenreSelection from "./pages/GenreSelection";
 import Quizzes from "./pages/Quizzes";
-import "./styles/styles.css"
+import "./styles/styles.css";
 
 const App = () => {
   return (
