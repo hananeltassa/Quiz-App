@@ -9,8 +9,8 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
-  const [errorMessage, setErrorMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [, setErrorMessage] = useState("");
+  const [, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
