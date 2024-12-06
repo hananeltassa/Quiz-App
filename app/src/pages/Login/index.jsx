@@ -28,10 +28,13 @@ const LoginPage = () => {
           email: formData.email,
           password: formData.password,
         });
+
+        const { token } = response.data;
+        localStorage.setItem("Token", token);
   
         console.log(response.data);
   
-        window.location.href = "/"; 
+        window.location.href = "/home"; 
   
       } catch (error) {
         setErrorMessage(error.response?.data?.message || "Something went wrong");

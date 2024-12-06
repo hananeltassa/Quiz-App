@@ -30,19 +30,19 @@ export const createQuiz = async (req, res) => {
 
 
 export const getQuiz = async (req, res) => {
-  const { genre } = req.query;  
+  const { genre } = req.query;
+  console.log("Genre received:", genre); 
 
   try {
     const quizzes = await Quiz.find({ genre });
-
     if (quizzes.length === 0) {
       return res.status(404).json({ message: "No quizzes found for this genre" });
     }
-
     return res.status(200).json({ quizzes });
   } catch (error) {
     console.error("Error fetching quizzes:", error.message);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 

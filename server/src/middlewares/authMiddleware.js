@@ -9,7 +9,7 @@ export const authMiddleware = (req, res, next) => {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
-  console.log("Token received:", token); 
+  //console.log("Token received:", token); 
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
