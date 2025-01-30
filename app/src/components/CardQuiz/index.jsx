@@ -9,7 +9,6 @@ const CardQuiz = ({
   onAnswer,
   questionIndex,
   isInput,
-  setCurrentQuestionIndex,
   correctAnswer,
 }) => {
   const [inputValue, setInputValue] = useState("");
@@ -23,13 +22,13 @@ const CardQuiz = ({
   }, [questionIndex]);
 
   const handleSubmit = (answer) => {
-    const isCorrect = answer.trim().toLowerCase() === correctAnswer.toLowerCase();
+    const isCorrect = answer.trim() === correctAnswer;
     setSelectedAnswer(isCorrect ? "✅ Correct!" : "❌ Incorrect");
     setIsAnswered(true);
 
     setTimeout(() => {
       onAnswer(answer);
-      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+      //setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
     }, 1500);
   };
 
@@ -41,7 +40,7 @@ const CardQuiz = ({
         {isInput ? (
           <div className="input-container">
             <CustomInput
-              aria-label={`Question ${questionIndex + 1}`}
+              aria-label={`Question ${questionIndex}`}
               placeholder="Type your answer..."
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
