@@ -3,19 +3,16 @@ import "./Login.css";
 import axios from "axios";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
+import useForm from "../../hooks/useForm";
 
 const LoginPage = () => {
-  const [formData, setFormData] = useState({
+  const { formData, handleInputChange } = useForm({
     email: "",
     password: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
