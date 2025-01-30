@@ -13,8 +13,10 @@ const GenreSelection = () => {
   const { data: genres, loading, error } = useSelector((state) => state.genres);
 
   useEffect(() => {
-    dispatch(fetchGenres());
-  }, [dispatch]);
+    if (genres.length === 0) {
+      dispatch(fetchGenres());
+    }
+  }, [dispatch, genres.length]);
 
   if (loading) return <LoadingScreen message="Loading genres..." />;
   if (error) return <div className="error-message">Error: {error.message}</div>;
