@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import "./Register.css"; 
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
+import useForm from "../../hooks/useForm";
 
 const RegisterPage = () => {
-  const [formData, setFormData] = useState({
+  const { formData, handleInputChange } = useForm({
     username: "",
     email: "",
     password: "",
@@ -13,11 +15,7 @@ const RegisterPage = () => {
 
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const navigate =useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,7 +32,7 @@ const RegisterPage = () => {
 
       console.log(response.data);
 
-      window.location.href = "/login"; 
+      navigate("/login"); 
 
     } catch (error) {
       setErrorMessage(error.response?.data?.message || "Something went wrong");
@@ -45,8 +43,8 @@ const RegisterPage = () => {
 
   return (
     <div className="registerContainer">
-      <h1 className="registerTitle">Register</h1>
       <form onSubmit={handleSubmit} className="registerForm">
+        <h1 className="registerTitle">Register</h1>
         <CustomInput
           type="text"
           name="username"

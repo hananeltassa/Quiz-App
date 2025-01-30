@@ -11,10 +11,8 @@
     animation: backgroundMove 4s ease infinite;
 }
 
-/* Page title */
 .registerTitle {
     font-size: 2rem;
-    font-family: 'Pacifico', cursive;
     animation: fadeInUp 2s ease;
     margin-bottom: 30px;
 }
@@ -25,12 +23,11 @@
     justify-content: center;
     align-items: center;
     gap: 15px;
-    width: 50%;
+    width: 40%;
+    padding: 10px;
 }
 
 
-
-/* Register button - same as login */
 .registerButton {
     width: 20%;
     font-size: 1.2rem;
