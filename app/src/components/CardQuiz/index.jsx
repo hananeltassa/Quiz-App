@@ -4,7 +4,7 @@ import CustomButton from "../CustomButton";
 import "./CardQuiz.css";
 
 const CardQuiz = ({
-  question,
+  question = "No Question Available",
   options = [],
   onAnswer,
   questionIndex,
@@ -23,11 +23,8 @@ const CardQuiz = ({
   }, [questionIndex]);
 
   const handleSubmit = (answer) => {
-    setSelectedAnswer(
-      answer.trim().toLowerCase() === correctAnswer.toLowerCase()
-        ? "✅ Correct!"
-        : "❌ Incorrect"
-    );
+    const isCorrect = answer.trim().toLowerCase() === correctAnswer.toLowerCase();
+    setSelectedAnswer(isCorrect ? "✅ Correct!" : "❌ Incorrect");
     setIsAnswered(true);
 
     setTimeout(() => {
@@ -38,7 +35,7 @@ const CardQuiz = ({
 
   return (
     <div className="card-quiz">
-      <h3>{question || "No Question Available"}</h3>
+      <h3>{question}</h3>
 
       <div className="content">
         {isInput ? (
@@ -49,6 +46,7 @@ const CardQuiz = ({
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               disabled={isAnswered}
+              className="customInput"
             />
             <CustomButton
               onClick={() => handleSubmit(inputValue)}
