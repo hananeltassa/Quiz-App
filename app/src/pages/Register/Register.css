@@ -25,27 +25,14 @@
     justify-content: center;
     align-items: center;
     gap: 15px;
+    width: 50%;
 }
 
-/* Input fields */
-.registerInput {
-    width: 300px;
-    padding: 12px 20px;
-    margin: 10px auto;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    font-size: 16px;
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
 
-.registerInput:focus {
-    border-color: #ff4081;
-    box-shadow: 0 0 10px rgba(255, 64, 129, 0.5);
-    outline: none;
-}
 
 /* Register button - same as login */
 .registerButton {
+    width: 20%;
     font-size: 1.2rem;
     font-weight: bold;
     background-color: #ff4081;
@@ -53,7 +40,6 @@
     border: none;
     padding: 12px 40px;
     border-radius: 30px;
-    margin-left: 20px;
     cursor: pointer;
     transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
 }
