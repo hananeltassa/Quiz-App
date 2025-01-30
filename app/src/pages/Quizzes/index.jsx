@@ -13,7 +13,7 @@ const Quizzes = () => {
 
   const { quizzes, loading, error } = useSelector((state) => state.quizzes);
 
-  const [userAnswers, setUserAnswers] = useState([]);
+  const [userAnswers, setUserAnswers] = useState([]); // ✅ Keeping this variable
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0); 
 
@@ -72,11 +72,21 @@ const Quizzes = () => {
   const currentQuestion = quizzes[0]?.questions[currentQuestionIndex];  
 
   if (!currentQuestion) {
-    // Quiz completed
+    // Quiz completed - ✅ Display user answers history
     return (
       <div className="quiz-container">
         <h2>Quiz Completed!</h2>
         <p>Your final score is: {score}</p>
+        <h3>Your Answers:</h3>
+        <ul>
+          {userAnswers.map((entry, index) => (
+            <li key={index}>
+              <strong>Q{index + 1}:</strong> {entry.question} <br />
+              <strong>Your Answer:</strong> {entry.answer} {" "}
+              {entry.isCorrect ? "✅" : "❌"}
+            </li>
+          ))}
+        </ul>
         <CustomButton className="back-button" onClick={() => navigate("/quiz")}>
           Back to Genre Selection
         </CustomButton>

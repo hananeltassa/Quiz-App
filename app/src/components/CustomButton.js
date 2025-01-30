@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { styled } from '@mui/system';
-import { useButton } from '@mui/base/useButton';
+import React from "react";
+import PropTypes from "prop-types";
+import clsx from "clsx";
+import { styled } from "@mui/system";
+import { useButton } from "@mui/base/useButton";
 
 const CustomButton = React.forwardRef(function CustomButton(props, ref) {
-  const { children, disabled, onClick } = props;
+  const { children, disabled, onClick, className, type = "button" } = props;
   const { active, focusVisible, getRootProps } = useButton({
     ...props,
     rootRef: ref,
@@ -14,12 +14,14 @@ const CustomButton = React.forwardRef(function CustomButton(props, ref) {
   return (
     <CustomButtonRoot
       {...getRootProps()}
-      className={clsx({
+      type={type}
+      className={clsx("custom-button", className, {
         active,
         disabled,
         focusVisible,
       })}
       onClick={onClick}
+      disabled={disabled}
     >
       {children}
     </CustomButtonRoot>
@@ -28,78 +30,76 @@ const CustomButton = React.forwardRef(function CustomButton(props, ref) {
 
 CustomButton.propTypes = {
   children: PropTypes.node,
-  /**
-   * If `true`, the component is disabled.
-   * @default false
-   */
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
+  className: PropTypes.string,
+  type: PropTypes.string,
 };
 
 export default CustomButton;
 
-const blue = {
-  200: '#99CCFF',
-  300: '#66B2FF',
-  400: '#3399FF',
-  500: '#007FFF',
-  600: '#0072E5',
-  700: '#0066CC',
+const colors = {
+  primary: "#d81b60", // Magenta Pink
+  hover: "#c2185b", // Darker Pink
+  active: "#ad1457", // Deep Magenta
+  disabled: "#B0B8C4",
+  text: "#FFFFFF",
+  focusOutline: "#ff80ab",
 };
 
-const grey = {
-  50: '#F3F6F9',
-  100: '#E5EAF2',
-  200: '#DAE2ED',
-  300: '#C7D0DD',
-  400: '#B0B8C4',
-  500: '#9DA8B7',
-  600: '#6B7A90',
-  700: '#434D5B',
-  800: '#303740',
-  900: '#1C2025',
-};
-
-const CustomButtonRoot = styled('button')(
-  ({ theme }) => `
-  font-family: 'IBM Plex Sans', sans-serif;
+const CustomButtonRoot = styled("button")`
+  font-family: "IBM Plex Sans", sans-serif;
   font-weight: 600;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  background-color: ${blue[500]};
-  padding: 8px 16px;
-  margin: 10px;
-  border-radius: 8px;
-  color: white;
-  transition: all 150ms ease;
+  font-size: 1rem;
+  padding: 12px 16px;
+  border-radius: 30px;
+  color: ${colors.text};
+  background-color: ${colors.primary};
   cursor: pointer;
-  border: 1px solid ${blue[500]};
-  box-shadow: 0 2px 1px ${
-    theme.palette.mode === 'dark' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(45, 45, 60, 0.2)'
-  }, inset 0 1.5px 1px ${blue[400]}, inset 0 -2px 1px ${blue[600]};
+  border: none;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  min-width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
-    background-color: ${blue[600]};
+    background-color: ${colors.hover};
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
   }
 
-  &.active {
-    background-color: ${blue[700]};
-    box-shadow: none;
-    transform: scale(0.99);
+  &:active {
+    background-color: ${colors.active};
+    transform: scale(0.98);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
   }
 
   &.focusVisible {
-    box-shadow: 0 0 0 4px ${theme.palette.mode === 'dark' ? blue[300] : blue[200]};
+    box-shadow: 0 0 0 4px ${colors.focusOutline};
     outline: none;
   }
 
   &.disabled {
-    background-color: ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-    color: ${theme.palette.mode === 'dark' ? grey[200] : grey[700]};
-    border: 0;
-    cursor: default;
+    background-color: ${colors.disabled};
+    color: #666;
+    cursor: not-allowed;
     box-shadow: none;
     transform: scale(1);
   }
-`,
-);
+
+  /* 📱 Responsive Design */
+  @media (max-width: 600px) {
+    font-size: 0.9rem;
+    padding: 10px 16px;
+    height: 45px;
+  }
+
+  @media (max-width: 400px) {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+    height: 40px;
+  }
+`;

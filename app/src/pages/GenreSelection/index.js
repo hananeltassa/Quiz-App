@@ -2,21 +2,9 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchGenres } from "../../redux/slices/genreSlice";
+import genreIcons from "../../utils/genreIcons";
+import LoadingScreen from "../../components/LoadingScreen";
 import "./GenreSelection.css";
-
-const genreIcons = {
-  Science: "🧪",
-  History: "📜",
-  Football: "⚽",
-  Movies: "🎥",
-  Math:"➕",
-  Geography: "🌍",
-  Technology: "👩‍💻",
-  Literature: "📖",
-  Music: "🎼",
-  Sports:"🏅"
-  
-};
 
 const GenreSelection = () => {
   const navigate = useNavigate();
@@ -28,40 +16,26 @@ const GenreSelection = () => {
     dispatch(fetchGenres());
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   if (genres.length) {
-  //     console.log("Fetched Genres:", genres);
-  //   }
-  // }, [genres]);
-
-  if (loading) {
-    return <div>Loading genres...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
+  if (loading) return <LoadingScreen message="Loading genres..." />;
+  if (error) return <div className="error-message">Error: {error.message}</div>;
 
   return (
     <div className="genre-selection-container">
       <h2 className="genre-title">🎉 Choose Your Quiz Adventure! 🎮</h2>
       <div className="genre-list">
-        {genres.map((genre) => (
-          <div
-            key={genre.name}
-            className="genre-card"
-            onClick={() => navigate(`/quiz/${genre.name}`)}
-          >
-            <div className="genre-icon">
-              {genreIcons[
-                genre.name.charAt(0).toUpperCase() + genre.name.slice(1).toLowerCase()
-              ] || "❓"}
+        {genres.map(({ name }) => {
+          const formattedName = name.charAt(0).toUpperCase() + name.slice(1);
+          return (
+            <div
+              key={name}
+              className="genre-card"
+              onClick={() => navigate(`/quiz/${name}`)}
+            >
+              <div className="genre-icon">{genreIcons[formattedName] || "❓"}</div>
+              <p className="genre-name">{formattedName}</p>
             </div>
-            <p className="genre-name">
-              {genre.name.charAt(0).toUpperCase() + genre.name.slice(1)}
-            </p>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

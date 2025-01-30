@@ -9,8 +9,8 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
-  const [, setErrorMessage] = useState("");
-  const [, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -19,29 +19,26 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    try {
-        setLoading(true);
-  
-        const response = await axios.post("http://localhost:8080/api/users/login", {
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-        });
+    setLoading(true);
+    setErrorMessage("");
 
-        const { token } = response.data;
-        localStorage.setItem("Token", token);
-  
-        console.log(response.data);
-  
-        window.location.href = "/home"; 
-  
-      } catch (error) {
-        setErrorMessage(error.response?.data?.message || "Something went wrong");
-      } finally {
-        setLoading(false);
-      }
-    };
+    try {
+      const response = await axios.post("http://localhost:8080/api/users/login", {
+        email: formData.email,
+        password: formData.password,
+      });
+
+      const { token } = response.data;
+      localStorage.setItem("Token", token);
+      console.log(response.data);
+
+      window.location.href = "/quiz"; 
+    } catch (error) {
+      setErrorMessage(error.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="loginContainer">
@@ -54,6 +51,7 @@ const LoginPage = () => {
           value={formData.email}
           onChange={handleInputChange}
           className="loginInput"
+          required
         />
         <CustomInput
           type="password"
@@ -62,9 +60,19 @@ const LoginPage = () => {
           value={formData.password}
           onChange={handleInputChange}
           className="loginInput"
+          required
         />
-        <CustomButton type="submit" className="loginButton">
-          Login
+        {errorMessage && (
+          <p className="errorMessage" aria-live="polite">
+            {errorMessage}
+          </p>
+        )}
+        <CustomButton 
+          type="submit" 
+          className="loginButton" 
+          disabled={loading}
+        >
+          {loading ? "Logging in..." : "Login"}
         </CustomButton>
       </form>
     </div>

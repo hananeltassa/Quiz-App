@@ -13,16 +13,18 @@
 
 /* Page title */
 .loginTitle {
-    font-size: 3rem;
+    font-size: 2rem;
     font-family: 'Pacifico', cursive;
     animation: fadeInUp 2s ease;
     margin-bottom: 30px;
 }
 
-/* Form styles */
+/* Center the form elements */
 .loginForm {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 15px;
 }
 
@@ -41,6 +43,19 @@
     border-color: #ff4081;
     box-shadow: 0 0 10px rgba(255, 64, 129, 0.5);
     outline: none;
+}
+
+.loginButton {
+    font-size: 1.2rem;
+    font-weight: bold;
+    background-color: #ff4081;
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 30px;
+    margin-left: 20px;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
 }
 
 
