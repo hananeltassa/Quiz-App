@@ -1,51 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import useQuizLogic from "../../hooks/useQuizLogic";
 import CardQuiz from "../../components/CardQuiz";
-import CustomButton from "../../components/CustomButton"; 
-import { fetchQuizzesByGenre } from "../../redux/slices/quizzesSlice";
+import CustomButton from "../../components/CustomButton";
+import QuizResult from "../../components/QuizResult";
 import "./Quizzes.css";
 
 const Quizzes = () => {
-  const { genre } = useParams(); 
+  const { genre } = useParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const {
+    quizzes,
+    loading,
+    error,
+    userAnswers,
+    currentQuestionIndex,
+    setCurrentQuestionIndex,
+    score,
+    handleAnswer,
+  } = useQuizLogic(genre);
 
-  const { quizzes, loading, error } = useSelector((state) => state.quizzes);
-
-  const [userAnswers, setUserAnswers] = useState([]); // ✅ Keeping this variable
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [score, setScore] = useState(0); 
-
-  useEffect(() => {
-    dispatch(fetchQuizzesByGenre(genre));
-  }, [genre, dispatch]);
-
-  const handleAnswer = (answer) => {
-    const currentQuestion = quizzes[0]?.questions[currentQuestionIndex]; 
-    if (!currentQuestion) return; 
-
-    const isCorrect = answer === currentQuestion.correctAnswer;
-
-    if (isCorrect) {
-      setScore((prevScore) => prevScore + 10); 
-    }
-
-    setUserAnswers((prev) => [...prev, { question: currentQuestion.questionText, answer, isCorrect }]);
-    setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-  };
-
-  const handleScoreUpdate = (updatedScore) => {
-    setScore(updatedScore);
-  };
-
-  if (loading) {
-    return (
-      <div className="quiz-container">
-        <h2>Loading quizzes...</h2>
-      </div>
-    );
-  }
+  if (loading) return <div className="quiz-container"><h2>Loading quizzes...</h2></div>;
 
   if (error) {
     return (
@@ -58,7 +33,7 @@ const Quizzes = () => {
     );
   }
 
-  if (!quizzes || quizzes.length === 0 || !quizzes[0]?.questions) {
+  if (!quizzes?.length || !quizzes[0]?.questions) {
     return (
       <div className="quiz-container">
         <h2>No Quizzes Found for {genre.toUpperCase()}</h2>
@@ -69,43 +44,21 @@ const Quizzes = () => {
     );
   }
 
-  const currentQuestion = quizzes[0]?.questions[currentQuestionIndex];  
+  const currentQuestion = quizzes[0]?.questions[currentQuestionIndex];
 
-  if (!currentQuestion) {
-    // Quiz completed - ✅ Display user answers history
-    return (
-      <div className="quiz-container">
-        <h2>Quiz Completed!</h2>
-        <p>Your final score is: {score}</p>
-        <h3>Your Answers:</h3>
-        <ul>
-          {userAnswers.map((entry, index) => (
-            <li key={index}>
-              <strong>Q{index + 1}:</strong> {entry.question} <br />
-              <strong>Your Answer:</strong> {entry.answer} {" "}
-              {entry.isCorrect ? "✅" : "❌"}
-            </li>
-          ))}
-        </ul>
-        <CustomButton className="back-button" onClick={() => navigate("/quiz")}>
-          Back to Genre Selection
-        </CustomButton>
-      </div>
-    );
-  }
+  if (!currentQuestion) return <QuizResult score={score} userAnswers={userAnswers} />;
 
   return (
     <div className="quiz-container">
       <h2>Quiz: Question {currentQuestionIndex + 1}</h2>
       <CardQuiz
-        question={currentQuestion.questionText} 
-        options={currentQuestion.options} 
+        question={currentQuestion.questionText}
+        options={currentQuestion.options}
         onAnswer={handleAnswer}
         questionIndex={currentQuestionIndex}
-        isInput={currentQuestion.isInput} 
-        setCurrentQuestionIndex={setCurrentQuestionIndex} 
+        isInput={currentQuestion.isInput}
+        setCurrentQuestionIndex={setCurrentQuestionIndex}
         score={score}
-        setScore={handleScoreUpdate}
         correctAnswer={currentQuestion.correctAnswer}
       />
       <div className="score">
