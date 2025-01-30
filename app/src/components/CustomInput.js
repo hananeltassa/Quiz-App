@@ -19,16 +19,12 @@ const CustomInput = React.forwardRef(function CustomInput(props, ref) {
 });
 
 const InputWrapper = styled("div")`
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 100%;
 `;
 
 const StyledInputElement = styled("input")(
   ({ theme }) => `
-    width: 100%;
-    max-width: 300px;
+    max-width: 250px;
     padding: 10px 15px;
     border-radius: 30px;
     font-family: 'IBM Plex Sans', sans-serif;
