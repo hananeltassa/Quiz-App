@@ -28,7 +28,6 @@ const CardQuiz = ({
 
     setTimeout(() => {
       onAnswer(answer);
-      //setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
     }, 1500);
   };
 
